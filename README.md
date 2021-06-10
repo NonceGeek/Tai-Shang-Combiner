@@ -47,15 +47,15 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - [ ] **区块链端**
 
-**技术栈：**Solidity/WASM
+**技术栈：** Solidity/WASM
 
-**简述：**标准erc721合约 + 存证合约
+**简述：** 标准erc721合约 + 存证合约
 
-- [ ] `evidence`
+- [x] `evidence`
 
 基于工厂设计模式，作为erc721+的存证合约。
 
-- [ ] `erc721`
+- [x] `erc721`
 
 标准erc721合约
 
