@@ -5,8 +5,8 @@ defmodule TaiShang.Combiner do
 
 
   # +-------+
-  # | Rules |
-  # +-------+
+  # | Rules | <<255,255,255,255,255,255,255,255>>
+  # +-------+ <<255,255,255,255,255,255,255,255>>
 
   alias Utils.{DecTranslator, RandGen}
   require Logger
@@ -148,6 +148,7 @@ defmodule TaiShang.Combiner do
     Logger.info("+------------------------------+")
     Logger.info("input base10 gene :#{inspect(base10_list)}")
     Logger.info("input acc base10 gene :#{inspect(acc_base10_list)}")
+    Logger.info("base10 rules :#{inspect(rules)}")
     Logger.info("output base10 gene :#{inspect(payload)}")
 
     :binary.list_to_bin(payload)
@@ -181,6 +182,7 @@ defmodule TaiShang.Combiner do
     Logger.info("+------------------------------+")
     Logger.info("input base2 gene :#{inspect(base2_list)}")
     Logger.info("input acc base2 gene :#{inspect(acc_base2_list)}")
+    Logger.info("base2 rules :#{inspect(rules)}")
     Logger.info("output base2 gene :#{inspect(payload)}")
     DecTranslator.base2_list_to_bin(payload, 2)
   end

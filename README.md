@@ -45,6 +45,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 请团队在报名那一周 git clone 这个代码库并创建团队目录，在 readme 里列出黑客松期间内打算完成的代码功能点。并提交 PR 到本代码库。例子如下 (这只是一个 nft 项目的例子，请根据团队项目自身定义具体工作)：
 
+- [ ] **抽象设计**
+
+简述：设计NFT+中的额外属性。
+
+见 [NFT+ 设计文档](NFT+ 设计文档.md)。
+
 - [ ] **区块链端**
 
 **技术栈：** Solidity/WASM

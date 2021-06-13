@@ -23,6 +23,18 @@ contract EvidenceFactory{
             return evidence;
         }
         
+        function isEnabled(string key) public constant returns(bool) {   
+            address addr = evi_key[key];
+            return Evidence(addr).getIfEnabled();
+        }
+        
+        function disable(string key) public returns(bool){
+            address addr = evi_key[key];
+            return Evidence(addr).disable();    
+        }
+        
+        
+            
         function getEvidenceByKey(string key) public constant returns(string,address[],address[]){ 
             return getEvidence(evi_key[key]);
         }
@@ -36,7 +48,7 @@ contract EvidenceFactory{
             return Evidence(addr).addSignatures();
         }
         
-        constructor(address[] evidenceSigners){
+        constructor(address[] evidenceSigners) public {
             for(uint i=0; i<evidenceSigners.length; ++i) {
                 signers.push(evidenceSigners[i]);
 			}

@@ -1,6 +1,6 @@
 defmodule Utils.DecTranslator do
 
-  @spec bin_to_base2_list(Binary.t(), integer) :: List.t()
+  @spec bin_to_base2_list(Binary.t(), pos_integer) :: List.t()
   def bin_to_base2_list(bin, size) do
     bin
     |> :binary.decode_unsigned()
@@ -12,6 +12,7 @@ defmodule Utils.DecTranslator do
     |> :binary.bin_to_list()
   end
 
+  @spec base2_list_to_bin(List.t(), pos_integer) :: binary
   def base2_list_to_bin(list, size) do
     list
     |> Integer.undigits()

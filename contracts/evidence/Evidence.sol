@@ -9,9 +9,11 @@ contract EvidenceSignersDataABI
 
 contract Evidence{
     
+    bool isEnabled;
     string evidence;
     address[] signers;
     address public factoryAddr;
+    
     
     event addSignaturesEvent(string evi);
     event newSignaturesEvent(string evi, address addr);
@@ -19,6 +21,9 @@ contract Evidence{
     event errorAddSignaturesEvent(string evi, address addr);
     event addRepeatSignaturesEvent(string evi);
     event errorRepeatSignaturesEvent(string evi, address addr);
+    
+    event disableEvent(address addr);
+    event errorDisableEvent(address addr);
 
     function CallVerify(address addr) public constant returns(bool) {
         return EvidenceSignersDataABI(factoryAddr).verify(addr);
@@ -38,6 +43,27 @@ contract Evidence{
        }
     }
 
+    function getIfEnabled() public constant returns(bool){
+        return isEnabled;
+    }
+    
+    function disable() public returns(bool){
+        for(uint i= 0 ;i<signers.length ;i++)
+        {
+            if(tx.origin == signers[i])
+            {
+                isEnabled = false;
+                emit disableEvent(tx.origin);
+                return true;
+            }
+        }
+        
+        emit errorDisableEvent(tx.origin);
+        
+        return false;
+
+    }
+    
     function getEvidence() public constant returns(string,address[],address[]){
         uint length = EvidenceSignersDataABI(factoryAddr).getSignersSize();
          address[] memory signerList = new address[](length);
