@@ -107,10 +107,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - [ ] `Parser`
 
-  NFT+ 解析器，解析内容包括原生 URL 与 Gene。
+  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01/settings/access
+  - 
 
+  NFT+ 解析器，解析内容包括原生 URI 与 Gene。
 
-## 黑客松期间所完成的事项 (7月5日初审前提交)
 
 - 7月5日前，在本栏列出黑客松期间最终完成的功能点。
 - 把相关代码放在 `src` 目录里，并在本栏列出在黑客松期间打完成的开发工作/功能点。我们将对这些目录/档案作重点技术评审。
