@@ -121,6 +121,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 | 参赛人员姓名 | Github地址     |
 | ------------ | -------------- |
 | 李骜华       | leeduckgo      |
+| 何伟         | Dream4ever     |
 | 刘峰         | lekko1988      |
 | 黄杰         | Blockchain_Key |
 | 肖越         | xiaoyue2019    |
