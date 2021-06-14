@@ -17,7 +17,7 @@ defmodule TaiShangWeb.Router do
   scope "/", TaiShangWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", CombinerLive, :index
   end
 
   # Other scopes may use custom stacks.
