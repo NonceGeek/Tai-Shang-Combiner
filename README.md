@@ -107,7 +107,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - [ ] `Parser`
 
-  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01/settings/access
+  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01
   - 
 
   NFT+ 解析器，解析内容包括原生 URI 与 Gene。
