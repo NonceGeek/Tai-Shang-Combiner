@@ -69,7 +69,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - [ ] **炼金炉端**
 
-**技术栈：**Elixir-Phoniex
+**技术栈：** Elixir-Phoniex
 
 **简述：** NFT 熔炼核心，支持界面/接口两种熔炼方式。
 
@@ -77,7 +77,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 支持多链的链上-本地同步器。
 
-- [ ] `Combiner`
+- [x] `Combiner`
 
   混合器，负责 NFT 的输入、处理与输出。
 
