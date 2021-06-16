@@ -9,7 +9,6 @@ contract EvidenceSignersDataABI
 
 contract Evidence{
     
-    bool isEnabled;
     string evidence;
     address[] signers;
     address public factoryAddr;
@@ -41,27 +40,6 @@ contract Evidence{
        {
            errorNewSignaturesEvent(evi,addr);
        }
-    }
-
-    function getIfEnabled() public constant returns(bool){
-        return isEnabled;
-    }
-    
-    function disable() public returns(bool){
-        for(uint i= 0 ;i<signers.length ;i++)
-        {
-            if(tx.origin == signers[i])
-            {
-                isEnabled = false;
-                emit disableEvent(tx.origin);
-                return true;
-            }
-        }
-        
-        emit errorDisableEvent(tx.origin);
-        
-        return false;
-
     }
     
     function getEvidence() public constant returns(string,address[],address[]){
