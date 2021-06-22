@@ -3,7 +3,6 @@ import "./Evidence.sol";
 
 contract EvidenceFactory{
         address[] signers;
-        
         //advance to add logic about free key
         mapping(string=>address) evi_key; 
         
@@ -15,7 +14,7 @@ contract EvidenceFactory{
 		    emit newEvidenceEvent(evidence);
 		    return evidence;
 		}
-        function newEvidenceByKey(string evi, string key) public returns(address)
+        function newEvidenceByKey(string key, string evi) public returns(address)
         {
             Evidence evidence = new Evidence(evi, this);
             emit newEvidenceEventWithKey(evidence, key); 
@@ -23,9 +22,15 @@ contract EvidenceFactory{
             return evidence;
         }
         
-            
-        function getEvidenceByKey(string key) public constant returns(string,address[],address[]){ 
-            return getEvidence(evi_key[key]);
+        // function getEvidenceByKey(string key) public constant returns(address){ 
+        function getEvidenceByKey(string key) public  view returns(string,address[],address[]){ 
+            if(evi_key[key]==address(0)){
+                return("", signers, signers);
+            }else{
+                 return getEvidence(evi_key[key]);
+            }
+
+
         }
         
         function getEvidence(address addr) public constant returns(string,address[],address[]){
