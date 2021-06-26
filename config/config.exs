@@ -10,6 +10,9 @@ use Mix.Config
 config :tai_shang,
   ecto_repos: [TaiShang.Repo]
 
+config :ethereumex,
+  url: "https://elixir.leeduckgo.com/moonbeam"
+
 # Configures the endpoint
 config :tai_shang, TaiShangWeb.Endpoint,
   url: [host: "localhost"],

@@ -20,7 +20,7 @@ defmodule TaiShang.MixProject do
   def application do
     [
       mod: {TaiShang.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ethereumex]
     ]
   end
 
@@ -50,6 +50,10 @@ defmodule TaiShang.MixProject do
 
       # Binary
       {:binary, "~> 0.0.5"},
+
+      # Ethereum
+      {:ethereumex, "~> 0.7.0"},
+      {:ex_abi, "~> 0.5.2"}
     ]
   end
 
