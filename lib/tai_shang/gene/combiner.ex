@@ -1,4 +1,4 @@
-defmodule TaiShang.Combiner do
+defmodule TaiShang.Gene.Combiner do
   @moduledoc """
     Multi-Input to Single Output.
     Example.
@@ -110,7 +110,12 @@ defmodule TaiShang.Combiner do
     Logger.info("input acc base2 gene: #{inspect(acc_base2_list)}")
     Logger.info("base2 rules: #{inspect(rules_base2)}")
     Logger.info("output base2 gene: #{inspect(payload)}")
-    DecTranslator.base2_list_to_bin(payload, 2)
+
+    size_in_bin = ceil(Enum.count(base2_list)/8)
+
+    payload
+    |> DecTranslator.base2_list_to_bin()
+    |> Binary.pad_leading(size_in_bin)
   end
 
   def handle_properties(bin_list) do

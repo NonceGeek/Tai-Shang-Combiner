@@ -105,9 +105,14 @@ defmodule TaiShang.Rules do
   end
 
   def gen_limit(list_size, limit_list) do
-    Enum.reduce(Enum.count(limit_list)..list_size, limit_list, fn _key, acc ->
-      acc ++ [:nil]
-    end)
+    limit_len =  Enum.count(limit_list)
+    if limit_len >= list_size do
+      limit_list
+    else
+      Enum.reduce(limit_len+1..list_size, limit_list, fn _key, acc ->
+        acc ++ [:nil]
+      end)
+    end
   end
 
   # +--------------------+

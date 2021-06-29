@@ -12,13 +12,12 @@ defmodule Utils.DecTranslator do
     |> :binary.bin_to_list()
   end
 
-  @spec base2_list_to_bin(List.t(), pos_integer) :: binary
-  def base2_list_to_bin(list, size) do
+  @spec base2_list_to_bin(List.t()) :: binary
+  def base2_list_to_bin(list) do
     list
     |> Integer.undigits()
     |> Integer.to_string()
     |> String.to_integer(2)
     |> :binary.encode_unsigned()
-    |> Binary.pad_leading(size)
   end
 end

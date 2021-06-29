@@ -53,7 +53,12 @@ defmodule TaiShang.MixProject do
 
       # Ethereum
       {:ethereumex, "~> 0.7.0"},
-      {:ex_abi, "~> 0.5.2"}
+      {:ex_abi, "~> 0.5.2"},
+
+      # http
+      {:httpoison, "~> 1.5"},
+      {:poison, "~> 3.1"},
+
     ]
   end
 

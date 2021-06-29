@@ -1,11 +1,24 @@
-defmodule TaiShang.Generator do
+defmodule TaiShang.Gene.Generator do
   @moduledoc """
     NFT-Base Generator
   """
   alias TaiShang.Rules
+  alias Utils.DecTranslator
   require Logger
 
-  def genrate_gene(init_rules_base2, init_rules_base10, limits_base2, limits_base10) do
+  @doc """
+    generate gene by params.
+    8 Bit Gene Example:
+
+    ```
+    init_rules_base2 = TaiShang.Rules.gen_init_rule(16, 4, 4) # 16 b = 2 bit
+    limits_base2 = TaiShang.Rules.gen_limit(16, [1,1,1,1,0,0,0,0,1,1,1,1])
+    init_rules_base10 = TaiShang.Rules.gen_init_rule(16, 6, 6)
+    limits_base10 = TaiShang.Rules.gen_limit(6, [20, 30, 40, 50, 60, 70])
+    TaiShang.Generator.genrate_gene(init_rules_base2, init_rules_base10, limits_base2, limits_base10)
+    ```
+  """
+  def generate_gene(init_rules_base2, init_rules_base10, limits_base2, limits_base10) do
     gene_base2 = do_generate_gene(:base2, init_rules_base2, limits_base2)
     gene_base10 = do_generate_gene(:base10, init_rules_base10, limits_base10)
     payload = gene_base2 <> gene_base10
@@ -31,6 +44,14 @@ defmodule TaiShang.Generator do
           Rules.handle_base10_by_rule(limit, init_rule)
       end
     end)
-    |> :binary.list_to_bin()
+    |> handle_result(type)
+  end
+
+  def handle_result(payload, :base2) do
+    DecTranslator.base2_list_to_bin(payload)
+  end
+
+  def handle_result(payload, :base10) do
+    :binary.list_to_bin(payload)
   end
 end
