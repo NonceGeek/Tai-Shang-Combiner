@@ -3,7 +3,7 @@ defmodule TaiShang.Gene.Generator do
     NFT-Base Generator
   """
   alias TaiShang.Rules
-  alias Utils.DecTranslator
+  alias Utils.TypeTranslator
   require Logger
 
   @doc """
@@ -48,7 +48,7 @@ defmodule TaiShang.Gene.Generator do
   end
 
   def handle_result(payload, :base2) do
-    DecTranslator.base2_list_to_bin(payload)
+    TypeTranslator.base2_list_to_bin(payload)
   end
 
   def handle_result(payload, :base10) do

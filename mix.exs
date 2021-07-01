@@ -59,6 +59,11 @@ defmodule TaiShang.MixProject do
       {:httpoison, "~> 1.5"},
       {:poison, "~> 3.1"},
 
+      # crypto
+      {:starkbank_ecdsa, "~> 1.0.0"},
+      {:ex_keccak, "~> 0.2.0"},
+      {:ex_rlp, "~> 0.2.1"},
+      {:libsecp256k1, "~> 0.1.9"}
     ]
   end
 

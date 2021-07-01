@@ -6,7 +6,7 @@ defmodule TaiShang.Gene.Combiner do
   """
 
   alias TaiShang.Rules
-  alias Utils.DecTranslator
+  alias Utils.TypeTranslator
   require Logger
 
   # +---------+
@@ -88,8 +88,8 @@ defmodule TaiShang.Gene.Combiner do
   @spec handle_base2(binary, binary, integer(), List.t()) :: binary
   def handle_base2(binary, acc_binary, base2_size, rules_base2) do
     binary
-    |> DecTranslator.bin_to_base2_list(base2_size)
-    |> handle_base2_list(DecTranslator.bin_to_base2_list(acc_binary, base2_size), rules_base2)
+    |> TypeTranslator.bin_to_base2_list(base2_size)
+    |> handle_base2_list(TypeTranslator.bin_to_base2_list(acc_binary, base2_size), rules_base2)
   end
 
   @spec handle_base2_list(List.t(), List.t(), List.t()) :: binary
@@ -114,7 +114,7 @@ defmodule TaiShang.Gene.Combiner do
     size_in_bin = ceil(Enum.count(base2_list)/8)
 
     payload
-    |> DecTranslator.base2_list_to_bin()
+    |> TypeTranslator.base2_list_to_bin()
     |> Binary.pad_leading(size_in_bin)
   end
 

@@ -16,15 +16,15 @@ defmodule TaiShang.Chain do
   end
 
   def get_all() do
-    Repo.all(Chain)
+    Repo.all(Ele)
   end
 
   def get_by_name(ele) do
-    Repo.get_by(Chain, name: ele)
+    Repo.get_by(Ele, name: ele)
   end
 
   def get_by_id(ele) do
-    Repo.get_by(Chain, id: ele)
+    Repo.get_by(Ele, id: ele)
   end
 
   def create(attrs \\ %{}) do
