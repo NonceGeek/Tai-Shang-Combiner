@@ -2,6 +2,8 @@
 
 # 太上 NFT 炼金炉
 
+> **Demo Online:** https://taishang.leeduckgo.com/
+
 > **愿景：** 助力所有NFT，让其具备无限商业想象空间与无限玩法。
 
 子项目 —— NFT Parsers（NFT 独立解析器）:
@@ -57,23 +59,31 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 请团队在报名那一周 git clone 这个代码库并创建团队目录，在 readme 里列出黑客松期间内打算完成的代码功能点。并提交 PR 到本代码库。例子如下 (这只是一个 nft 项目的例子，请根据团队项目自身定义具体工作)：
 
-- [ ] **抽象设计**
+- [x] **抽象设计**
 
 简述：设计NFT+中的额外属性。
 
 见 [NFT+ 设计文档](NFT+ 设计文档.md)。
 
-- [ ] **区块链端**
+- [x] **区块链端**
 
 **技术栈：** Solidity/WASM
 
 **简述：** 标准erc721合约 + 存证合约
 
-- [x] `evidence`
+- [ ] `evidence`
+
+   - [x] `solidity`
+   
+   - [ ] `wasm`
 
 基于工厂设计模式，作为erc721+的存证合约。
 
-- [x] `erc721`
+- [ ] `erc721`
+
+   - [x] `solidity`
+   
+   - [ ] `wasm`
 
 标准erc721合约
 
@@ -85,21 +95,27 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 **简述：** NFT 熔炼核心，支持界面/接口两种熔炼方式。
 
-- [ ] `Syncer`
 
-支持多链的链上-本地同步器。
+- [x] `Generator`
+
+  生成炉，负责 NFT 的生成。
 
 - [x] `Combiner`
 
-  混合器，负责 NFT 的输入、处理与输出。
+  混合炉，负责 NFT 的混合。
+  
+- [ ] `Decomposer`
 
-- [ ] `Caller`
+  分解炉，负责 NFT 的分解。
 
-  将 NFT 的输出结果通知 NFT 发行方。
 
 - [ ] `可视化界面`
 
   基于 Phoniex 的炼金炉可视化界面，支持可视化「熔炼」NFT。
+  
+  - [ ] `Generator`
+  
+  可视化的 Generator
 
 - [ ] `接口中心`
 
@@ -113,14 +129,14 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 **简述：** 适配该应用/该链，将 NFT + 实体化，如解析为「屠龙宝刀」、「游戏称号」等等等等。
 
-- [ ] `Interactor`
+- [x] `Interactor`
 
 和链进行交互。
 
 - [ ] `Parser`
 
   - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01
-  - 
+  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x02
 
   NFT+ 解析器，解析内容包括原生 URI 与 Gene。
 
