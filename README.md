@@ -2,7 +2,7 @@
 
 # 太上 NFT 炼金炉
 
-> **Demo Online: ** https://taishang.leeduckgo.com/
+> **Demo Online:** https://taishang.leeduckgo.com/
 
 > **愿景：** 助力所有NFT，让其具备无限商业想象空间与无限玩法。
 
@@ -71,11 +71,19 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 **简述：** 标准erc721合约 + 存证合约
 
-- [x] `evidence`
+- [] `evidence`
+
+   - [x] `solidity`
+   
+   - [] `wasm`
 
 基于工厂设计模式，作为erc721+的存证合约。
 
-- [x] `erc721`
+- [] `erc721`
+
+   - [x] `solidity`
+   
+   - [] `wasm`
 
 标准erc721合约
 
