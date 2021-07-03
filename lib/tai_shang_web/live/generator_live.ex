@@ -217,7 +217,7 @@ defmodule TaiShangWeb.GeneratorLive do
     if Integer.parse(expir_timestamp) == :error do
       expir_timestamp
     else
-      Integer.to_string(expir_timestamp)
+      String.to_integer(expir_timestamp)
     end
   end
 
