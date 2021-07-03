@@ -71,19 +71,19 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 **简述：** 标准erc721合约 + 存证合约
 
-- [] `evidence`
+- [ ] `evidence`
 
    - [x] `solidity`
    
-   - [] `wasm`
+   - [ ] `wasm`
 
 基于工厂设计模式，作为erc721+的存证合约。
 
-- [] `erc721`
+- [ ] `erc721`
 
    - [x] `solidity`
    
-   - [] `wasm`
+   - [ ] `wasm`
 
 标准erc721合约
 
