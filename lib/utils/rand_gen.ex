@@ -27,6 +27,6 @@ defmodule Utils.RandGen do
   end
 
   def get_timestamp() do
-    :os.system_time(:millisecond)
+    :os.system_time(:second)
   end
 end

@@ -39,6 +39,7 @@ defmodule TaiShangWeb.GeneratorLive do
     |> assign(token_gen_description: nil)
     |> assign(token_gen_effective_timestamp: nil)
     |> assign(token_gen_expir_timestamp: nil)
+    |> assign(token_gen_url: nil)
     |> assign(basic_info_key: nil)
     |> assign(basic_info_tx_id: nil)
 
@@ -162,25 +163,32 @@ defmodule TaiShangWeb.GeneratorLive do
       |> KeyGenerator.gen_unique_token_id(erc721_addr, token_id)
       |> KeyGenerator.gen_key(:gene)
 
-    {rules_mixed, limits_mixed} =
+    result =
       fetch_limits_and_rules(chain, erc721_addr, evidence_addr)
-    value =
-      rules_mixed
-      |> Generator.generate_gen(limits_mixed)
-      |> :binary.bin_to_list()
-      |> Poison.encode!()
+    case result do
+      {:error, _msg} ->
+        Process.send_after(self(), :add_extra_infos, 1000)
+        {:noreply, socket}
+      _ ->
+        {rules_mixed, limits_mixed} = result
+        value =
+          rules_mixed
+          |> Generator.generate_gen(limits_mixed)
+          |> :binary.bin_to_list()
+          |> Poison.encode!()
 
-    {:ok, tx_id} =
-      NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
+        {:ok, tx_id} =
+          NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
 
-    Process.send_after(self(), :add_extra_infos, 1000)
-      {
-        :noreply,
-        socket
-        |> assign(token_gene: value)
-        |> assign(token_gene_key: key)
-        |> assign(token_gene_tx_id: tx_id)
-      }
+        Process.send_after(self(), :add_extra_infos, 1000)
+          {
+            :noreply,
+            socket
+            |> assign(token_gene: value)
+            |> assign(token_gene_key: key)
+            |> assign(token_gene_tx_id: tx_id)
+          }
+    end
   end
 
   def handle_info(:add_extra_infos, %{assigns: assigns = %{token_params: token_params}} = socket) do
@@ -193,6 +201,7 @@ defmodule TaiShangWeb.GeneratorLive do
       %{}
       |> Map.put(:name, token_params.token_name)
       |> Map.put(:description, token_params.token_description)
+      |> Map.put(:url, token_params.token_url)
       |> Map.put(:effective_date, String.to_integer(token_params.effective_timestamp))
       |> Map.put(:expiration_date, handle_expir(token_params.expir_timestamp))
       |> Poison.encode!()
@@ -206,6 +215,7 @@ defmodule TaiShangWeb.GeneratorLive do
       socket
       |> assign(token_gen_name: token_params.token_name)
       |> assign(token_gen_description: token_params.token_description)
+      |> assign(token_gen_url: token_params.token_url)
       |> assign(token_gen_effective_timestamp: token_params.effective_timestamp)
       |> assign(token_gen_expir_timestamp: token_params.expir_timestamp)
       |> assign(basic_info_key: key)
@@ -245,13 +255,18 @@ defmodule TaiShangWeb.GeneratorLive do
         config["chain_id"],
         erc721_addr,
       evidence_addr)
-    limits =
-      limits_raw_list
-      |> :binary.list_to_bin()
-      |> Generator.decompse_limits()
-    rules =
-      Generator.decompose_rules(rules_raw_list)
-    {rules, limits}
+    if is_nil(limits_raw_list) or is_nil(rules_raw_list) do
+      {:error, "limit_or_rules_not_setting"}
+    else
+      limits =
+        limits_raw_list
+        |> :binary.list_to_bin()
+        |> Generator.decompse_limits()
+      rules =
+        Generator.decompose_rules(rules_raw_list)
+      {rules, limits}
+    end
+
   end
 
 end

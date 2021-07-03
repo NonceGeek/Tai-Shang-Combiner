@@ -62,6 +62,10 @@
         <input name="token_name" type="text" class="form-control"  placeholder="The Parent Token Ids of new Token">
     </div>
     <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Token URL</span>
+        <input name="token_url" type="text" class="form-control"  placeholder="The URL About this Token">
+    </div>
+    <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">Token Description</span>
         <input name="token_description" type="text" class="form-control"  placeholder="The Description of the new Token">
     </div>
@@ -126,6 +130,11 @@
     <b>Token Description: </b>
     <%= if !is_nil(@token_gen_description) do%>
         <%= @token_gen_description %>
+    <% end %>
+    <br>
+    <b>Token URL: </b>
+    <%= if !is_nil(@token_gen_url) do%>
+        <%= @token_gen_url %>
     <% end %>
     <br>
     <b>Token Effective Date: </b>

@@ -18,6 +18,7 @@ defmodule TaiShangWeb.Router do
     pipe_through :browser
 
     live "/", GeneratorLive, :index
+    live "/live/parser", ParserLive, :index
   end
 
   # Other scopes may use custom stacks.
