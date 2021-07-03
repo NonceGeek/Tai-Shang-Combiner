@@ -3,6 +3,8 @@ defmodule Utils.Crypto do
     Crypto Lib
   """
 
+  @secret_key "test"
+
   @base_recovery_id 27
   @base_recovery_id_eip_155 35
 
@@ -60,6 +62,48 @@ defmodule Utils.Crypto do
   end
 
   def kec(data) do
-    ExKeccak.hash_256(data)
+    Utils.ExSha3.keccak_256(data)
+    # ExKeccak.hash_256(data)
   end
+
+  # +------------------------------+
+  # | encrypt the data in database |
+  # +------------------------------+
+
+  def encrypt_key(key) do
+    encrypt_key(key, @secret_key)
+  end
+
+  def encrypt_key(key, password) do
+    md5_pwd = md5(password)
+    :crypto.block_encrypt(:aes_ecb, md5_pwd, pad(key, 16))
+  end
+
+  def decrypt_key(key) do
+    decrypt_key(key, @secret_key)
+  end
+  def decrypt_key(encrypted_key, password) do
+    md5_pwd = md5(password)
+
+    :aes_ecb
+    |> :crypto.block_decrypt(md5_pwd, encrypted_key)
+    |> unpad()
+  end
+
+  defp pad(data, block_size) do
+    to_add = block_size - rem(byte_size(data), block_size)
+    data <> to_string(:string.chars(to_add, to_add))
+  end
+
+  defp unpad(data) do
+    to_remove = :binary.last(data)
+    :binary.part(data, 0, byte_size(data) - to_remove)
+  end
+
+  defp md5(data) do
+    :md5
+    |> :crypto.hash(data)
+    |> Base.encode16(case: :lower)
+  end
+
 end

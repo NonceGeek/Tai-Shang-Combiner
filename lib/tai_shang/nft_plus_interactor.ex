@@ -5,34 +5,77 @@ defmodule TaiShang.NFTPlusInteractor do
     Example Erc721 Contract: "0x962c0940d72E7Db6c9a5F81f1cA87D8DB2B82A23"
   """
 
+  alias TaiShang.{Chain, Account}
   alias TaiShang.Ethereum.Transaction
   alias Ethereumex.HttpClient
-  alias Utils.TypeTranslator
+  alias Utils.{Crypto, TypeTranslator}
 
   @func %{
     balance_of: "balanceOf(address)",
     token_of_owner_by_index: "tokenOfOwnerByIndex(address, uint256)",
     token_uri: "tokenURI(uint256)",
     get_evidence_by_key: "getEvidenceByKey(string)",
-    new_evidence_by_key: "newEvidenceByKey(string, string)"
+    new_evidence_by_key: "newEvidenceByKey(string, string)",
+    mint_nft: "mintNft(address, string)"
   }
 
   # +----------------------+
   # | value changed funcs. |
   # +----------------------+
 
-  def new_evidence_by_key(%{config: %{"chain_id"=> chain_id}}, priv, from, contract_addr, key, value) do
+  def mint_nft(
+    chain,
+    %{
+      addr: from,
+      encrypted_privkey: encrypted_privkey
+    },
+    contract_addr, receiver_addr, uri) do
+    priv = Crypto.decrypt_key(encrypted_privkey)
+    mint_nft(chain, priv, from, contract_addr, receiver_addr, uri)
+  end
+  def mint_nft(chain, priv, from, contract_addr, receiver_addr, uri) do
+    {:ok, addr_bytes} = TypeTranslator.hex_to_bytes(receiver_addr)
+    str_data =
+      get_data(
+        @func.mint_nft,
+        [addr_bytes, uri])
+    send_raw_tx(chain, priv, from, contract_addr, str_data)
+  end
+
+  @doc """
+    two funcs:
+      set new evi by acct;
+      set new evi by priv and addr.
+  """
+  @spec new_evidence_by_key(Chain.t(), Account.t(), String.t(), String.t(), String.t()) :: {:ok, String.t()}
+  def new_evidence_by_key(
+    chain,
+    %{
+      addr: from,
+      encrypted_privkey: encrypted_privkey
+    },
+    contract_addr,
+    key,
+    value) do
+    priv = Crypto.decrypt_key(encrypted_privkey)
+    new_evidence_by_key(chain, priv, from, contract_addr, key, value)
+  end
+
+  @spec new_evidence_by_key(Chain.t(), Binary.t(), String.t(), String.t(), String.t(), String.t()) :: {:ok, String.t()}
+  def new_evidence_by_key(chain, priv, from, contract_addr, key, value) do
     str_data =
       get_data(
         @func.new_evidence_by_key,
         [key, value])
+
+    send_raw_tx(chain, priv, from, contract_addr, str_data)
+  end
+
+  def send_raw_tx(%{config: %{"chain_id"=> chain_id}}, priv, from, contract_addr, str_data) do
     {:ok, data_bin} = TypeTranslator.hex_to_bytes(str_data)
     unsigned_tx = Transaction.build_tx(from, contract_addr, data_bin)
-    IO.puts inspect unsigned_tx
     signed_tx = Transaction.sign(unsigned_tx, priv, chain_id)
-    IO.puts inspect signed_tx
     raw_tx = Transaction.signed_tx_to_raw_tx(signed_tx)
-    IO.puts inspect raw_tx
     HttpClient.eth_send_raw_transaction(raw_tx)
   end
 
@@ -111,10 +154,17 @@ defmodule TaiShang.NFTPlusInteractor do
 
   def handle_evi(""), do: nil
   def handle_evi(evi) do
-    evi
-    |> String.replace("\t", "")
-    |> String.replace("'","\"")
-    |> String.replace("/", "")
-    |> Poison.decode!()
+    result =
+      evi
+      |> String.replace("\t", "")
+      |> String.replace("'","\"")
+      |> String.replace("/", "")
+      |> Poison.decode()
+    case result do
+      {:ok, payload} ->
+        payload
+      {:error, _error} ->
+        evi
+    end
   end
 end

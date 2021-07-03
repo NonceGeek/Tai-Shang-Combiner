@@ -42,7 +42,31 @@
           <!-- <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/> -->
         </a>
       </section>
+      <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-center">
+          <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+              <ul class="navbar-nav" style ="width: 80%">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/">NFT-Plus Generator |</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/live/combiner">NFT-Plus Combiner |</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/live/decomposer">NFT-Plus Decomposer |</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/live/parser">NFT-Plus Parser |</a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/live/parser">Property for NFT Contract Setting</a>
+                </li>
+          </div>
+      </nav>
     </header>
-    <%= @inner_content %>
+      <%= @inner_content %>
   </body>
 </html>

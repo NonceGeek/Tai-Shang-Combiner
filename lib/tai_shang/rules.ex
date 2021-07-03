@@ -110,7 +110,7 @@ defmodule TaiShang.Rules do
       limit_list
     else
       Enum.reduce(limit_len+1..list_size, limit_list, fn _key, acc ->
-        acc ++ [:nil]
+        acc ++ [0]
       end)
     end
   end

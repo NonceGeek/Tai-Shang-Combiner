@@ -1,0 +1,155 @@
+<h3><center>Generator（无中生有炉）</center></h3>
+<p><center><b>U can update exist NFT or generate NFT-Plus directly!</b></center></p>
+<p><center>Ensure the erc721's governancer is evidencer's governancer!</center></p>
+<br>
+<form phx-submit="generate" phx-change="change_v">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Erc721 Addr</span>
+        <input name="erc721_addr" value="<%= @erc721_addr%>" type="text" class="form-control"  placeholder="The Addr of Erc721">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Evidencer Addr</span>
+        <input name="evidence_addr" value="<%= @evidence_addr%>" type="text" class="form-control"  placeholder="The Addr of Evidencer">
+    </div>
+    <br>
+
+    <center>
+        <button type="button" phx-click="fetch_limits_and_rules" phx-value-erc721="<%= @erc721_addr %>" phx-value-evidencer="<%= @evidence_addr %>"style="width:50%" class="btn btn-info btn-lg">
+            <h3>Get limits&rules!</h3>
+        </button>
+    </center>
+    <br>
+    <b>Generate NFT-Plus Gene（元神） based on Gene Limits an Gene Rules!</b>
+    <%= if !is_nil(@limits) do%>
+        <br><br>
+        <b>Gene Limits: </b> <%= inspect @limits %>
+    <% end %>
+
+    <%= if !is_nil(@rules) do%>
+    <br><br>
+        <b>Gene Rules: </b> <%= inspect @rules %>
+    <br><br>
+    <% end %>
+    <br>
+    Put the existed Token Id Here:
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Existed Token</span>
+        <input name="existed_token_id" type="text" class="form-control"  placeholder="existed_token_id">
+    </div>
+    <br>
+    <b>OR</b>
+    <br>
+    Put Receiver&URI Here(Create New!):
+    <br>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Receiver Addr</span>
+        <input name="receiver_addr" type="text" class="form-control"  placeholder="The Receiver's addr">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">URI</span>
+        <input name="uri" type="text" class="form-control"  placeholder="The URI of new Token">
+    </div>
+    <hr>
+    Extra Infomations:
+    <br>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Parent Token Id</span>
+        <input name="parent_token_ids" type="text" class="form-control"  placeholder="The Parent Token Ids of new Token">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Token Name</span>
+        <input name="token_name" type="text" class="form-control"  placeholder="The Parent Token Ids of new Token">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Token Description</span>
+        <input name="token_description" type="text" class="form-control"  placeholder="The Description of the new Token">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Expiration Timestamp</span>
+        <input name="expir_timestamp" value="<%= @expir_timestamp%>" type="text" class="form-control"  placeholder="The Expiration Time of the new Token">
+    </div>
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Effective Timestamp</span>
+        <input name="effective_timestamp" value="<%= @effective_timestamp%>" type="text" class="form-control"  placeholder="The Effective Time of the new Token">
+    </div>
+    <br>
+    Generated Token Informations:
+    <br>
+    <b>Token Id: </b>
+    <%= if !is_nil(@token_id) do%>
+        <%= @token_id %>
+    <% end %>
+    <br>
+    <b>Token URI: </b>
+    <%= if !is_nil(@token_uri) do%>
+        <%= @token_uri %>
+    <% end %>
+    <hr>
+    <b>Parent Tokens: </b>
+    <%= if !is_nil(@token_parent) do%>
+        <%= @token_parent %>
+    <% end %>
+    <br>
+    <b>Parent Key: </b>
+    <%= if !is_nil(@token_parent_key) do%>
+        <%= @token_parent_key %>
+    <% end %>
+    <br>
+    <b>Evi Tx Id: </b>
+    <%= if !is_nil(@token_parent_tx_id) do%>
+        <%= @token_parent_tx_id %>
+    <% end %>
+    <hr>
+    <b>Token Gene: </b>
+    <%= if !is_nil(@token_gene) do%>
+        <%= @token_gene %>
+    <% end %>
+    <br>
+    <b>Gene Key: </b>
+    <%= if !is_nil(@token_gene_key) do%>
+        <%= @token_gene_key %>
+    <% end %>
+    <br>
+    <b>Evi Tx Id: </b>
+    <%= if !is_nil(@token_gene_tx_id) do%>
+        <%= @token_gene_tx_id %>
+    <% end %>
+    <hr>
+    <b>Other Informations: </b>
+    <br>
+    <b>Token Name: </b>
+    <%= if !is_nil(@token_gen_name) do%>
+        <%= @token_gen_name %>
+    <% end %>
+    <br>
+    <b>Token Description: </b>
+    <%= if !is_nil(@token_gen_description) do%>
+        <%= @token_gen_description %>
+    <% end %>
+    <br>
+    <b>Token Effective Date: </b>
+    <%= if !is_nil(@token_gen_effective_timestamp) do%>
+        <%= @token_gen_effective_timestamp %>
+    <% end %>
+    <br>
+    <b>Token Expiration Date: </b>
+    <%= if !is_nil(@token_gen_expir_timestamp) do%>
+        <%= @token_gen_expir_timestamp %>
+    <% end %>
+    <br>
+    <b>Basic Info Key: </b>
+    <%= if !is_nil(@basic_info_key) do%>
+        <%= @basic_info_key %>
+    <% end %>
+    <br>
+    <b>Basic Info Tx Id: </b>
+    <%= if !is_nil(@basic_info_tx_id) do%>
+        <%= @basic_info_tx_id %>
+    <% end %>
+    <br>
+
+    <center>
+        <button type="submit" phx-name="action" style="width:50%" class="btn btn-info btn-lg"><h3>Generate!</h3></button>
+    </center>
+</form>
