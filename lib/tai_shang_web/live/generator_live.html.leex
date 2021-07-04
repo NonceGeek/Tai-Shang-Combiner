@@ -137,6 +137,12 @@
         <%= @token_gen_url %>
     <% end %>
     <br>
+
+    <b>First Owner: </b>
+    <%= if !is_nil(@token_gen_first_owner) do%>
+        <%= @token_gen_first_owner %>
+    <% end %>
+    <br>
     <b>Token Effective Date: </b>
     <%= if !is_nil(@token_gen_effective_timestamp) do%>
         <%= @token_gen_effective_timestamp %>

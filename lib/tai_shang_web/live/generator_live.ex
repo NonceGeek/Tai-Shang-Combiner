@@ -39,6 +39,7 @@ defmodule TaiShangWeb.GeneratorLive do
     |> assign(token_gen_description: nil)
     |> assign(token_gen_effective_timestamp: nil)
     |> assign(token_gen_expir_timestamp: nil)
+    |> assign(token_gen_first_owner: nil)
     |> assign(token_gen_url: nil)
     |> assign(basic_info_key: nil)
     |> assign(basic_info_tx_id: nil)
@@ -201,6 +202,7 @@ defmodule TaiShangWeb.GeneratorLive do
       %{}
       |> Map.put(:name, token_params.token_name)
       |> Map.put(:description, token_params.token_description)
+      |> Map.put(:first_owner, token_params.receiver_addr)
       |> Map.put(:url, token_params.token_url)
       |> Map.put(:effective_date, String.to_integer(token_params.effective_timestamp))
       |> Map.put(:expiration_date, handle_expir(token_params.expir_timestamp))
@@ -218,8 +220,10 @@ defmodule TaiShangWeb.GeneratorLive do
       |> assign(token_gen_url: token_params.token_url)
       |> assign(token_gen_effective_timestamp: token_params.effective_timestamp)
       |> assign(token_gen_expir_timestamp: token_params.expir_timestamp)
+      |> assign(token_gen_first_owner: token_params.receiver_addr) # first owner is receiver
       |> assign(basic_info_key: key)
       |> assign(basic_info_tx_id: tx_id)
+
     }
   end
 

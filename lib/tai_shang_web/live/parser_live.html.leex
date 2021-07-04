@@ -1,1 +1,47 @@
-hi
+<h3><center>Parser（NFT-Plus解析器）<center></h3>
+<p><center><b>U can parse NFT-Plus by Parser based on Addr OR Token id!</b></center></p>
+<hr>
+<form phx-submit="parse">
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Erc 721 Addr:</span>
+    <input name="erc721_addr" value="<%= @erc721_addr%>" type="text" class="form-control"  placeholder="The Erc721 Addr">
+</div>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Evidence Addr:</span>
+    <input name="evidence_addr"  value="<%= @evidence_addr%>" type="text" class="form-control"  placeholder="The Evidence Addr">
+</div>
+<hr>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">NFT-Plus Owner's Addr:</span>
+    <input name="owner_addr"  type="text" class="form-control"  placeholder="The Owner of NFT-Plus">
+</div>
+<h3>Parsers based on Addr: </h3>
+
+<%= for parser <- @parsers_based_on_addr do %>
+    <b>Parser Name: </b><%= parser.name%><br>
+    <b>Parser Description: </b><%= parser.description%><br>
+    <b>URL: </b><a href="<%= parser.url%>"><%= parser.url%></a><br>
+
+<%= submit "Let's Parse!", name: "parse", "phx-click": "select_parser##{parser.id}" %><hr>
+<% end %>
+<hr>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">NFT-Plus Token's Id:</span>
+    <input name="token_id"  type="text" class="form-control"  placeholder="The Token Id of NFT-Plus">
+</div>
+<h3>Parsers based on Token Id: </h3>
+
+<%= for parser <- @parsers_based_on_token do %>
+    <b>Parser Name: </b><%= parser.name%><br>
+    <b>Parser Description: </b><%= parser.description%><br>
+    <b>URL: </b><a href="<%= parser.url%>"><%= parser.url%></a><br>
+
+<%= submit "Let's Parse!", name: "parse", "phx-click": "select_parser##{parser.id}" %><hr>
+<% end %>
+
+<!--<script>
+    function myFunction() {
+        window.open("https://www.w3schools.com", '_blank');
+    }
+    myFunction();
+</script>-->
