@@ -109,11 +109,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   分解炉，负责 NFT 的分解。
 
 
-- [ ] `可视化界面`
+- [x] `可视化界面`
 
   基于 Phoniex 的炼金炉可视化界面，支持可视化「熔炼」NFT。
   
-  - [ ] `Generator`
+  - [x] `Generator`
   
   可视化的 Generator
 
@@ -133,10 +133,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 和链进行交互。
 
-- [ ] `Parser`
+- [x] `Parser`
 
   - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01
   - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x02
+  - NFT Parser 0x03: In TaiShang.
 
   NFT+ 解析器，解析内容包括原生 URI 与 Gene。
 
