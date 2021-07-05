@@ -3,7 +3,8 @@
 # 太上 NFT 炼金炉
 
 > **Demo Online:** https://taishang.leeduckgo.com/
-
+> **项目视频讲解：** https://www.bilibili.com/video/BV1by4y1K7E6/
+> **注：:** 本项目底层目前是使用的[MoonBeam](https://docs.moonbeam.network/)
 > **愿景：** 助力所有NFT，让其具备无限商业想象空间与无限玩法。
 
 子项目 —— NFT Parsers（NFT 独立解析器）:
