@@ -20,8 +20,7 @@ defmodule TaiShangWeb.CombinerLive do
       |> assign(effective_timestamp: Integer.to_string(RandGen.get_timestamp()))
       |> assign(expir_timestamp: "forever")
       |> set_nil_assigns()
-
-  }
+    }
   end
 
   def set_nil_assigns(socket) do
@@ -50,7 +49,6 @@ defmodule TaiShangWeb.CombinerLive do
     |> assign(basic_info_key: nil)
     |> assign(basic_info_tx_id: nil)
     |> assign(all_in_combiner_addr: nil)
-
   end
 
   @impl true
@@ -63,30 +61,33 @@ defmodule TaiShangWeb.CombinerLive do
 
   def do_handle_event(:view, params, socket) do
     chain = Chain.get_default_chain()
+
     %{
       token_list: token_id_list_str,
       erc721_addr: erc721_addr,
       evidence_addr: evidence_addr
-    }
-      = StructTranslator.to_atom_struct(params)
-    token_id_list =
-      Poison.decode!(token_id_list_str)
+    } =
+      StructTranslator.to_atom_struct(params)
+
+    token_id_list = Poison.decode!(token_id_list_str)
+
     token_infos =
       chain.config["chain_id"]
       |> NFTPlusFetcher.fetch_tokens_info(
         evidence_addr,
         erc721_addr,
-        token_id_list)
+        token_id_list
+      )
       |> Enum.map(fn token_info ->
-      in_combiner_addr =
-        String.downcase(token_info.owner) == String.downcase(@combiner_addr)
-      Map.put(token_info, :in_combiner_addr, in_combiner_addr)
-    end)
+        in_combiner_addr = String.downcase(token_info.owner) == String.downcase(@combiner_addr)
+        Map.put(token_info, :in_combiner_addr, in_combiner_addr)
+      end)
 
     all_in_combiner_addr? =
       Enum.reduce(token_infos, true, fn %{in_combiner_addr: in_combiner_addr?}, acc ->
         acc and in_combiner_addr?
       end)
+
     {
       :noreply,
       socket
@@ -97,25 +98,27 @@ defmodule TaiShangWeb.CombinerLive do
 
   def do_handle_event(:comb, params, socket) do
     chain = Chain.get_default_chain()
+
     %{
       token_list: token_id_list_str,
       erc721_addr: erc721_addr,
       evidence_addr: evidence_addr
-    }
-      = params_atom = StructTranslator.to_atom_struct(params)
-    token_id_list =
-      Poison.decode!(token_id_list_str)
+    } =
+      params_atom = StructTranslator.to_atom_struct(params)
+
+    token_id_list = Poison.decode!(token_id_list_str)
+
     token_infos =
       chain.config["chain_id"]
       |> NFTPlusFetcher.fetch_tokens_info(
         evidence_addr,
         erc721_addr,
-        token_id_list)
+        token_id_list
+      )
       |> Enum.map(fn token_info ->
-      in_combiner_addr =
-        String.downcase(token_info.owner) == String.downcase(@combiner_addr)
-      Map.put(token_info, :in_combiner_addr, in_combiner_addr)
-    end)
+        in_combiner_addr = String.downcase(token_info.owner) == String.downcase(@combiner_addr)
+        Map.put(token_info, :in_combiner_addr, in_combiner_addr)
+      end)
 
     all_in_combiner_addr? =
       Enum.reduce(token_infos, true, fn %{in_combiner_addr: in_combiner_addr?}, acc ->
@@ -125,17 +128,19 @@ defmodule TaiShangWeb.CombinerLive do
     {rules, limits} = Rules.fetch_rules_and_limits(chain, erc721_addr, evidence_addr)
     # create new token by old one
     genes =
-      Enum.map(token_infos, fn %{extra_info: %{gene: gene}}->
+      Enum.map(token_infos, fn %{extra_info: %{gene: gene}} ->
         :binary.list_to_bin(gene)
       end)
+
     output_gene =
       genes
       |> Combiner.combine_genes(rules, limits)
       |> :binary.bin_to_list()
 
     if all_in_combiner_addr? == true do
-      IO.puts "ddddd"
+      IO.puts("ddddd")
       Process.send_after(self(), :mint_token, 1000)
+
       {
         :noreply,
         socket
@@ -146,7 +151,8 @@ defmodule TaiShangWeb.CombinerLive do
         |> assign(token_params: params_atom)
       }
     else
-      IO.puts "kkkkk"
+      IO.puts("kkkkk")
+
       {
         :noreply,
         socket
@@ -155,7 +161,10 @@ defmodule TaiShangWeb.CombinerLive do
         |> assign(gene_limits: limits)
         |> assign(gene_generated: output_gene)
         |> assign(token_params: params_atom)
-        |> put_flash(:error, "Please Transfer The token U want to combine to the Combiner Addr First!")
+        |> put_flash(
+          :error,
+          "Please Transfer The token U want to combine to the Combiner Addr First!"
+        )
       }
     end
   end
@@ -167,19 +176,24 @@ defmodule TaiShangWeb.CombinerLive do
 
   @impl true
   def handle_info(:mint_token, %{assigns: assigns} = socket) do
-    {chain, erc721_addr, _evidence_addr, _token_id, acct}
-      = decompose_assigns(assigns)
+    {chain, erc721_addr, _evidence_addr, _token_id, acct} =
+      decompose_assigns(assigns)
+
     receiver_addr = assigns.token_params.receiver_addr
     uri = assigns.token_params.uri
+
     {:ok, _tx_id} =
       NFTPlusInteractor.mint_nft(
         chain,
         acct,
         erc721_addr,
         assigns.token_params.receiver_addr,
-        uri)
+        uri
+      )
+
     token_id = NFTPlusFetcher.fetch_best_nft(erc721_addr, receiver_addr)
     Process.send_after(self(), :add_extra_parents, 1000)
+
     {
       :noreply,
       socket
@@ -187,24 +201,28 @@ defmodule TaiShangWeb.CombinerLive do
       |> assign(token_uri: uri)
     }
   end
+
   def handle_info(:add_extra_parents, %{assigns: assigns} = socket) do
-    {chain, erc721_addr, evidence_addr, token_id, acct}
-      = decompose_assigns(assigns)
+    {chain, erc721_addr, evidence_addr, token_id, acct} =
+      decompose_assigns(assigns)
+
     %{config: %{"chain_id" => chain_id}} = chain
 
     %{parent_token_ids: parent_token_ids} = assigns.token_params
+
     key =
       chain_id
       |> KeyGenerator.gen_unique_token_id(erc721_addr, token_id)
       |> KeyGenerator.gen_key(:parent)
+
     value =
       parent_token_ids
       |> String.replace("\"", "'")
 
-    {:ok, tx_id} =
-      NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
+    {:ok, tx_id} = NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
 
     Process.send_after(self(), :add_extra_genes, 1000)
+
     {
       :noreply,
       socket
@@ -215,8 +233,9 @@ defmodule TaiShangWeb.CombinerLive do
   end
 
   def handle_info(:add_extra_genes, %{assigns: assigns} = socket) do
-    {chain, erc721_addr, evidence_addr, token_id, acct}
-      = decompose_assigns(assigns)
+    {chain, erc721_addr, evidence_addr, token_id, acct} =
+      decompose_assigns(assigns)
+
     %{config: %{"chain_id" => chain_id}} = chain
 
     key =
@@ -224,28 +243,28 @@ defmodule TaiShangWeb.CombinerLive do
       |> KeyGenerator.gen_unique_token_id(erc721_addr, token_id)
       |> KeyGenerator.gen_key(:gene)
 
-    value =
-      Poison.encode!(assigns.gene_generated)
+    value = Poison.encode!(assigns.gene_generated)
 
-    {:ok, tx_id} =
-      NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
+    {:ok, tx_id} = NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
 
     Process.send_after(self(), :add_extra_infos, 1000)
-      {
-        :noreply,
-        socket
-        |> assign(token_gene: value)
-        |> assign(token_gene_key: key)
-        |> assign(token_gene_tx_id: tx_id)
-      }
+
+    {
+      :noreply,
+      socket
+      |> assign(token_gene: value)
+      |> assign(token_gene_key: key)
+      |> assign(token_gene_tx_id: tx_id)
+    }
   end
 
   def handle_info(:add_extra_infos, %{assigns: assigns = %{token_params: token_params}} = socket) do
-    {chain, erc721_addr, evidence_addr, token_id, acct}
-      = decompose_assigns(assigns)
+    {chain, erc721_addr, evidence_addr, token_id, acct} =
+      decompose_assigns(assigns)
+
     %{config: %{"chain_id" => chain_id}} = chain
-    key =
-      KeyGenerator.gen_unique_token_id(chain_id, erc721_addr, token_id)
+    key = KeyGenerator.gen_unique_token_id(chain_id, erc721_addr, token_id)
+
     value =
       %{}
       |> Map.put(:name, token_params.token_name)
@@ -257,8 +276,7 @@ defmodule TaiShangWeb.CombinerLive do
       |> Poison.encode!()
       |> String.replace("\"", "'")
 
-    {:ok, tx_id} =
-      NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
+    {:ok, tx_id} = NFTPlusInteractor.new_evidence_by_key(chain, acct, evidence_addr, key, value)
 
     {
       :noreply,
@@ -268,10 +286,10 @@ defmodule TaiShangWeb.CombinerLive do
       |> assign(token_gen_url: token_params.token_url)
       |> assign(token_gen_effective_timestamp: token_params.effective_timestamp)
       |> assign(token_gen_expir_timestamp: token_params.expir_timestamp)
-      |> assign(token_gen_first_owner: token_params.receiver_addr) # first owner is receiver
+      # first owner is receiver
+      |> assign(token_gen_first_owner: token_params.receiver_addr)
       |> assign(basic_info_key: key)
       |> assign(basic_info_tx_id: tx_id)
-
     }
   end
 
@@ -282,6 +300,7 @@ defmodule TaiShangWeb.CombinerLive do
       String.to_integer(expir_timestamp)
     end
   end
+
   def decompose_assigns(assigns) do
     chain = assigns.chain
     erc721_addr = assigns.erc721_addr
@@ -290,6 +309,4 @@ defmodule TaiShangWeb.CombinerLive do
     acct = assigns.acct
     {chain, erc721_addr, evidence_addr, token_id, acct}
   end
-
-
 end

@@ -3,6 +3,7 @@ defmodule TaiShang.Chain do
   import Ecto.Changeset
   alias TaiShang.Repo
   alias TaiShang.Chain, as: Ele
+
   schema "chain" do
     field :name, :string
     field :adapter, :string

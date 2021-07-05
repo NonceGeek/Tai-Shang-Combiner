@@ -9,8 +9,8 @@ defmodule Utils.Crypto do
   @base_recovery_id_eip_155 35
 
   def sign_hash(hash, private_key, chain_id \\ nil) do
+    # {:libsecp256k1, "~> 0.1.9"} is useful.
     {:ok, <<r::size(256), s::size(256)>>, recovery_id} =
-      # {:libsecp256k1, "~> 0.1.9"} is useful.
       :libsecp256k1.ecdsa_sign_compact(hash, private_key, :default, <<>>)
 
     recovery_id =
@@ -19,11 +19,13 @@ defmodule Utils.Crypto do
       else
         @base_recovery_id + recovery_id
       end
+
     {recovery_id, r, s}
   end
 
   def sha256(data), do: :crypto.hash(:sha256, data)
   def ripemd160(data), do: :crypto.hash(:ripemd160, data)
+
   @spec double_sha256(
           binary
           | maybe_improper_list(
@@ -82,6 +84,7 @@ defmodule Utils.Crypto do
   def decrypt_key(key) do
     decrypt_key(key, @secret_key)
   end
+
   def decrypt_key(encrypted_key, password) do
     md5_pwd = md5(password)
 
@@ -105,5 +108,4 @@ defmodule Utils.Crypto do
     |> :crypto.hash(data)
     |> Base.encode16(case: :lower)
   end
-
 end

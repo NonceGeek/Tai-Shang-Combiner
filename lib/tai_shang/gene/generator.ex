@@ -19,12 +19,15 @@ defmodule TaiShang.Gene.Generator do
     ```
   """
   def generate_gen(rules_mixed, limits_mixed) do
-    %{rules_base2: rules_base2, rules_base10: rules_base10}
-      = rules_mixed
-    %{limits_base2: limits_base2, limits_base10: limits_base10}
-      = limits_mixed
+    %{rules_base2: rules_base2, rules_base10: rules_base10} =
+      rules_mixed
+
+    %{limits_base2: limits_base2, limits_base10: limits_base10} =
+      limits_mixed
+
     generate_gene(rules_base2, rules_base10, limits_base2, limits_base10)
   end
+
   def generate_gene(init_rules_base2, init_rules_base10, limits_base2, limits_base10) do
     gene_base2 = do_generate_gene(:base2, init_rules_base2, limits_base2)
     gene_base10 = do_generate_gene(:base10, init_rules_base10, limits_base10)
@@ -47,6 +50,7 @@ defmodule TaiShang.Gene.Generator do
       case type do
         :base2 ->
           Rules.handle_base2_by_rule(limit, init_rule)
+
         :base10 ->
           Rules.handle_base10_by_rule(limit, init_rule)
       end

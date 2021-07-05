@@ -1,9 +1,9 @@
 defmodule Utils.TypeTranslator do
-
   def bin_to_base2_list(bin) do
     size = byte_size(bin)
     bin_to_base2_list(bin, size)
   end
+
   @spec bin_to_base2_list(Binary.t(), pos_integer) :: List.t()
   def bin_to_base2_list(bin, size) do
     bin
@@ -12,7 +12,7 @@ defmodule Utils.TypeTranslator do
     |> String.to_integer()
     |> Integer.digits()
     |> :binary.list_to_bin()
-    |> Binary.pad_leading(size*8)
+    |> Binary.pad_leading(size * 8)
     |> :binary.bin_to_list()
   end
 
@@ -45,8 +45,10 @@ defmodule Utils.TypeTranslator do
       |> hex_to_bin()
       |> ABI.TypeDecoder.decode_raw([:address])
       |> List.first()
+
     "0x" <> Base.encode16(addr_bin, case: :lower)
   end
+
   def hex_to_bin(hex) do
     hex
     |> String.slice(2..-1)

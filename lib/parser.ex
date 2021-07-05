@@ -3,6 +3,7 @@ defmodule TaiShang.Parser do
   import Ecto.{Changeset, Query}
   alias TaiShang.{Repo, Chain}
   alias TaiShang.Parser, as: Ele
+
   schema "parser" do
     field :name, :string
     field :description, :string
@@ -14,7 +15,6 @@ defmodule TaiShang.Parser do
     timestamps()
   end
 
-
   def get_all() do
     Repo.all(Ele)
   end
@@ -22,6 +22,7 @@ defmodule TaiShang.Parser do
   def get_by_id(ele) do
     Repo.get_by(Ele, id: ele)
   end
+
   def get_by_name(ele) do
     Repo.get_by(Ele, name: ele)
   end

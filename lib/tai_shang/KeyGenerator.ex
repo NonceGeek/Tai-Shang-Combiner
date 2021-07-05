@@ -9,6 +9,7 @@ defmodule TaiShang.KeyGenerator do
   def gen_contract_full(chain_id, erc721_contract_addr) do
     "#{chain_id}:#{erc721_contract_addr}"
   end
+
   def gen_unique_token_id(chain_id, erc721_contract_addr, token_id) do
     chain_id
     |> gen_contract_full(erc721_contract_addr)

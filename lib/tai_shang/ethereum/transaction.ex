@@ -7,7 +7,7 @@ defmodule TaiShang.Ethereum.Transaction do
   alias Ethereumex.HttpClient
   alias TaiShang.Ethereum.Transaction
 
-  @gas %{price: 0, limit: 3000000}
+  @gas %{price: 0, limit: 3_000_000}
   defstruct nonce: 0,
             gas_price: 0,
             gas_limit: 0,
@@ -35,10 +35,12 @@ defmodule TaiShang.Ethereum.Transaction do
 
   def build_tx(from, to_str, data) do
     nonce = get_nonce(from)
+
     bin_to =
-       to_str
-       |> String.replace("0x", "")
-       |> Base.decode16!(case: :mixed)
+      to_str
+      |> String.replace("0x", "")
+      |> Base.decode16!(case: :mixed)
+
     %Transaction{
       nonce: nonce,
       gas_price: @gas.price,
@@ -51,8 +53,8 @@ defmodule TaiShang.Ethereum.Transaction do
   end
 
   def get_nonce(addr) do
-    {:ok, hex} =
-      HttpClient.eth_get_transaction_count(addr)
+    {:ok, hex} = HttpClient.eth_get_transaction_count(addr)
+
     hex
     |> String.slice(2..-1)
     |> String.to_integer(16)
@@ -63,8 +65,10 @@ defmodule TaiShang.Ethereum.Transaction do
       signed_tx
       |> serialize()
       |> ExRLP.encode(encoding: :hex)
+
     "0x" <> raw_tx
   end
+
   @doc """
     generate signature
   """
@@ -95,7 +99,7 @@ defmodule TaiShang.Ethereum.Transaction do
       encode_unsigned(tx.gas_price),
       encode_unsigned(tx.gas_limit),
       tx.to,
-      encode_unsigned(tx.value ),
+      encode_unsigned(tx.value),
       if(tx.to == <<>>, do: tx.init, else: tx.data)
     ]
 
@@ -114,5 +118,4 @@ defmodule TaiShang.Ethereum.Transaction do
   @spec encode_unsigned(number()) :: binary()
   def encode_unsigned(0), do: <<>>
   def encode_unsigned(n), do: :binary.encode_unsigned(n)
-
 end

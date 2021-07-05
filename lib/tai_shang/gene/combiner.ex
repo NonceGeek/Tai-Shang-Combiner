@@ -14,41 +14,45 @@ defmodule TaiShang.Gene.Combiner do
   # +---------+
 
   def combine_genes(input_genes, rules_mixed, limits_mixed) do
-    %{rules_base2: rules_base2, rules_base10: rules_base10} =
-      rules_mixed
-    %{limits_base2: _limits_base2, limits_base10: limits_base10} =
-      limits_mixed
+    %{rules_base2: rules_base2, rules_base10: rules_base10} = rules_mixed
+    %{limits_base2: _limits_base2, limits_base10: limits_base10} = limits_mixed
 
     combine_genes(input_genes, rules_base2, rules_base10, limits_base10)
   end
+
   def combine_genes(input_genes, rules_base2, rules_base10, limits) do
     len =
       input_genes
       |> Enum.fetch!(0)
       |> byte_size()
+
     do_combine_genes(len, input_genes, rules_base2, rules_base10, limits)
   end
 
-
   @spec do_combine_genes(integer(), binary(), List.t(), List.t(), List.t()) :: binary()
   def do_combine_genes(byte_size, input_genes, rules_base2, rules_base10, limits) do
-    Enum.reduce(input_genes, fn input_gene, acc->
-      base2_size = div(byte_size, 4) # 1/4 is base2
+    Enum.reduce(input_genes, fn input_gene, acc ->
+      # 1/4 is base2
+      base2_size = div(byte_size, 4)
       combine_couples(input_gene, acc, base2_size, rules_base2, rules_base10, limits)
     end)
   end
 
-  @spec combine_couples(<<_::16, _::_*8>>, <<_::16, _::_*8>>, integer(), List.t(), List.t(), List.t()) :: binary
+  @spec combine_couples(
+          <<_::16, _::_*8>>,
+          <<_::16, _::_*8>>,
+          integer(),
+          List.t(),
+          List.t(),
+          List.t()
+        ) :: binary
   def combine_couples(input_gene, acc, base2_size, rules_base2, rules_base10, limits) do
-    <<binary_base2 :: bytes-size(base2_size), binary_base10 :: binary>> = input_gene
-    <<acc_binary_base2 :: bytes-size(base2_size), acc_binary_base10:: binary>> = acc
+    <<binary_base2::bytes-size(base2_size), binary_base10::binary>> = input_gene
+    <<acc_binary_base2::bytes-size(base2_size), acc_binary_base10::binary>> = acc
 
+    handled_base2_bin = handle_base2(binary_base2, acc_binary_base2, base2_size, rules_base2)
 
-    handled_base2_bin =
-      handle_base2(binary_base2, acc_binary_base2, base2_size, rules_base2)
-
-    handle_base10_bin =
-      handle_base10(binary_base10, acc_binary_base10, rules_base10, limits)
+    handle_base10_bin = handle_base10(binary_base10, acc_binary_base10, rules_base10, limits)
     handled_base2_bin <> handle_base10_bin
   end
 
@@ -60,7 +64,7 @@ defmodule TaiShang.Gene.Combiner do
   ## | base10 handler |
   ## +----------------+
 
-  @spec handle_base10(binary, binary, List.t(), List.t())  :: binary()
+  @spec handle_base10(binary, binary, List.t(), List.t()) :: binary()
   def handle_base10(binary, acc_binary, rules_base10, limits) do
     binary
     |> :binary.bin_to_list()
@@ -68,7 +72,6 @@ defmodule TaiShang.Gene.Combiner do
   end
 
   def handle_base10_list(base10_list, acc_base10_list, rules_base10, limits) do
-
     # rules to adjust
     # list_size = Enum.count(base10_list)
     # rules = Rules.gen_rule(:base10, list_size, 1, 1, 1, 1, 1)
@@ -87,7 +90,6 @@ defmodule TaiShang.Gene.Combiner do
     Logger.info("output base10 gene :#{inspect(payload)}")
 
     :binary.list_to_bin(payload)
-
   end
 
   ## +---------------+
@@ -103,7 +105,6 @@ defmodule TaiShang.Gene.Combiner do
 
   @spec handle_base2_list(List.t(), List.t(), List.t()) :: binary
   def handle_base2_list(base2_list, acc_base2_list, rules_base2) do
-
     # rules to adjust
     # list_size = Enum.count(base2_list)
     # rules = Rules.gen_rule(:base2, list_size, 5, 5, 5)
@@ -120,7 +121,7 @@ defmodule TaiShang.Gene.Combiner do
     Logger.info("base2 rules: #{inspect(rules_base2)}")
     Logger.info("output base2 gene: #{inspect(payload)}")
 
-    size_in_bin = ceil(Enum.count(base2_list)/8)
+    size_in_bin = ceil(Enum.count(base2_list) / 8)
 
     payload
     |> TypeTranslator.base2_list_to_bin()
@@ -133,10 +134,10 @@ defmodule TaiShang.Gene.Combiner do
       case payload do
         {{{bin_value, acc_value}, rule}, limit} ->
           Rules.handle_base10_by_rule(bin_value, acc_value, limit, rule)
+
         {{bin_value, acc_value}, rule} ->
           Rules.handle_base2_by_rule(bin_value, acc_value, rule)
       end
     end)
   end
-
 end

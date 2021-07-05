@@ -2,26 +2,26 @@ defmodule TaiShangWeb.Router do
   use TaiShangWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_live_flash
-    plug :put_root_layout, {TaiShangWeb.LayoutView, :root}
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_live_flash)
+    plug(:put_root_layout, {TaiShangWeb.LayoutView, :root})
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", TaiShangWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    live "/", GeneratorLive, :index
-    live "/live/parser", ParserLive, :index
-    live "/live/parser_0x03", ParserThreeLive, :index
-    live "/live/setting", ContractSettingLive, :index
-    live "/live/combiner", CombinerLive, :index
+    live("/", GeneratorLive, :index)
+    live("/live/parser", ParserLive, :index)
+    live("/live/parser_0x03", ParserThreeLive, :index)
+    live("/live/setting", ContractSettingLive, :index)
+    live("/live/combiner", CombinerLive, :index)
   end
 
   # Other scopes may use custom stacks.
@@ -40,8 +40,8 @@ defmodule TaiShangWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: TaiShangWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: TaiShangWeb.Telemetry)
     end
   end
 end

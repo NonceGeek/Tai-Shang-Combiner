@@ -8,6 +8,7 @@ defmodule TaiShang.NFTPlusGenerator do
 
   def gen_extra_info(property, chain_id, evi_contract_addr, erc721_contract_addr, token_id, info) do
     unique_token_id = KeyGenerator.gen_unique_token_id(chain_id, erc721_contract_addr, token_id)
+
     if is_nil(property) do
       do_gen_extra_info(evi_contract_addr, unique_token_id, info)
     else
@@ -16,9 +17,6 @@ defmodule TaiShang.NFTPlusGenerator do
     end
   end
 
-  def do_gen_extra_info(evi_contract_addr,key, info) do
-
+  def do_gen_extra_info(evi_contract_addr, key, info) do
   end
-
-
 end

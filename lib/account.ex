@@ -5,6 +5,7 @@ defmodule TaiShang.Account do
   alias TaiShang.Repo
   alias TaiShang.Account, as: Ele
   alias Utils.Crypto
+
   schema "account" do
     field :addr, :string
     field :encrypted_privkey, :binary

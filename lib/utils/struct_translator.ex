@@ -14,18 +14,15 @@ defmodule Utils.StructTranslator do
   end
 
   def to_atom_struct(struct) when is_map(struct) do
-    for {key, val} <- struct, into: %{}, do:
-    {translate_key(key), to_atom_struct(val)}
-
+    for {key, val} <- struct, into: %{}, do: {translate_key(key), to_atom_struct(val)}
   end
+
   def to_atom_struct(else_ele) do
     else_ele
   end
 
-  def translate_key(key) when is_atom(key),do: key
+  def translate_key(key) when is_atom(key), do: key
   def translate_key(key), do: String.to_atom(key)
-
-
 
   #  +----------------+
   #  | struct <=> map |
@@ -39,6 +36,7 @@ defmodule Utils.StructTranslator do
       case is_assoc_loaded_type?(v) do
         true ->
           not Ecto.assoc_loaded?(v)
+
         false ->
           false
       end
@@ -83,14 +81,14 @@ defmodule Utils.StructTranslator do
     |> str_to_map()
     |> to_atom_struct()
   end
+
   @doc """
     Example:
       "[{'name': '欧阳', 'weid': 'weid:1:0x9c4670f4fed7d2319b7346cb7465ef0020839817'}]"
   """
   def str_to_map(str) do
     str
-    |> String.replace( "\'", "\"")
-    |> Poison.decode!
+    |> String.replace("\'", "\"")
+    |> Poison.decode!()
   end
-
 end

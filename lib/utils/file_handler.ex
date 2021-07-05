@@ -1,5 +1,6 @@
 defmodule Utils.FileHandler do
   alias Utils.StructTranslator
+
   def read(:json, path) do
     path
     |> File.read!()
