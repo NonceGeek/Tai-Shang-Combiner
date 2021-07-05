@@ -43,7 +43,8 @@ parser_1 =
     name: "parser_0x01",
     description: "basic parser",
     url: "https://0x01.nft.doge.university/#",
-    chain_id: 1
+    chain_id: 1,
+    example_addr: "0xB84DF36e58a31f98d6294420569c365e8e1acaCd"
   }
 parser_2 =
   %{
@@ -51,7 +52,8 @@ parser_2 =
     description: "Second Creation —— parser to present 'inherit' between nfts!",
     url: "https://0x02.nft.doge.university/#",
     type: "based_on_token_id",
-    chain_id: 1
+    chain_id: 1,
+    example_token_id: 14
   }
 
 parser_3 =
@@ -59,7 +61,8 @@ parser_3 =
     name: "parser_0x02",
     description: "Crypto Characters - parser to present 'gene' of nft!",
     url: "parser_0x03",
-    chain_id: 1
+    chain_id: 1,
+    example_addr: "0x6B8d4d35027C9F5a5CA269341e914ad72234aCbD"
   }
 
 TaiShang.Parser.create(parser_1)

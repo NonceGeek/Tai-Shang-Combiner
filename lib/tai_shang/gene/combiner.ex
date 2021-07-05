@@ -5,7 +5,7 @@ defmodule TaiShang.Gene.Combiner do
     8 Bit Input: combine_genes[<<1, 2, 3, 4, 5, 6, 7, 8>>, <<1, 2, 3, 4, 5, 6, 7, 8>>]
   """
 
-  alias TaiShang.Rules
+  alias TaiShang.Gene.Rules
   alias Utils.TypeTranslator
   require Logger
 

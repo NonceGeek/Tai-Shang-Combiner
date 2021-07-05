@@ -15,7 +15,7 @@ defmodule TaiShang.NFTPlusFetcher do
   end
 
   def get_nft_plus_balance(chain_id, evi_contract_addr, erc721_contract_addr, addr_str) do
-    erc721_balance = get_erc721_balance(erc721_contract_addr, addr_str)
+  erc721_balance = get_erc721_balance(erc721_contract_addr, addr_str)
     Enum.map(erc721_balance, fn %{token_id: token_id} = basic_info ->
       extra_info = get_extra_info(
         chain_id,
@@ -24,24 +24,29 @@ defmodule TaiShang.NFTPlusFetcher do
         token_id)
       Map.put(basic_info, :extra_info, extra_info)
     end)
+
   end
 
   @spec get_erc721_balance(binary, binary) :: list
   def get_erc721_balance(contract_addr, addr_str) do
     balance = NFTPlusInteractor.balance_of(contract_addr, addr_str)
-    0..(balance-1)
-    |> Enum.map(fn index ->
-      NFTPlusInteractor.token_of_owner_by_index(
-        contract_addr,
-        addr_str,
-        index)
-    end)
-    |> Enum.map(fn token_id ->
-      %{
-        token_id: token_id,
-        uri: NFTPlusInteractor.token_uri(contract_addr, token_id)
-      }
-    end)
+    if balance == 0 do
+      []
+    else
+      0..(balance-1)
+      |> Enum.map(fn index ->
+        NFTPlusInteractor.token_of_owner_by_index(
+          contract_addr,
+          addr_str,
+          index)
+      end)
+      |> Enum.map(fn token_id ->
+        %{
+          token_id: token_id,
+          uri: NFTPlusInteractor.token_uri(contract_addr, token_id)
+        }
+      end)
+    end
   end
 
   def get_extra_info(chain_id, evi_contract_addr, erc721_contract_addr, token_id) do

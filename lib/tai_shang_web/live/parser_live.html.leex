@@ -20,11 +20,11 @@
 <%= for parser <- @parsers_based_on_addr do %>
     <b>Parser Name: </b><%= parser.name%><br>
     <b>Parser Description: </b><%= parser.description%><br>
+    <b>Example Addr: </b><%= parser.example_addr%><br>
     <b>URL: </b><a href="<%= parser.url%>"><%= parser.url%></a><br>
 
 <%= submit "Let's Parse!", name: "parse", "phx-click": "select_parser##{parser.id}" %><hr>
 <% end %>
-<hr>
 <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1">NFT-Plus Token's Id:</span>
     <input name="token_id"  type="text" class="form-control"  placeholder="The Token Id of NFT-Plus">
@@ -34,6 +34,7 @@
 <%= for parser <- @parsers_based_on_token do %>
     <b>Parser Name: </b><%= parser.name%><br>
     <b>Parser Description: </b><%= parser.description%><br>
+    <b>Example Token Id: </b><%= parser.example_token_id%><br>
     <b>URL: </b><a href="<%= parser.url%>"><%= parser.url%></a><br>
 
 <%= submit "Let's Parse!", name: "parse", "phx-click": "select_parser##{parser.id}" %><hr>

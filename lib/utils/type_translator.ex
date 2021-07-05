@@ -1,5 +1,9 @@
 defmodule Utils.TypeTranslator do
 
+  def bin_to_base2_list(bin) do
+    size = byte_size(bin)
+    bin_to_base2_list(bin, size)
+  end
   @spec bin_to_base2_list(Binary.t(), pos_integer) :: List.t()
   def bin_to_base2_list(bin, size) do
     bin

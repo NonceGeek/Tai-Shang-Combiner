@@ -19,6 +19,9 @@ defmodule TaiShangWeb.Router do
 
     live "/", GeneratorLive, :index
     live "/live/parser", ParserLive, :index
+    live "/live/parser_0x03", ParserThreeLive, :index
+    live "/live/setting", ContractSettingLive, :index
+    live "/live/combiner", CombinerLive, :index
   end
 
   # Other scopes may use custom stacks.

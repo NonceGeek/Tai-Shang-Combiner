@@ -1,27 +1,32 @@
+<form phx-submit="combine" phx-change="change_v">
 <h3><center>Config</center></h3>
 <div class="input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Token Addr:</span>
-    <input type="text" class="form-control"  placeholder="The Token Addr for The Chain!">
+    <span class="input-group-text" id="basic-addon1">Erc721 Addr</span>
+    <input name="erc721_addr" value="<%= @erc721_addr%>" type="text" class="form-control"  placeholder="The Addr of Erc721">
 </div>
+
 <div class="input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Evidence Addr:</span>
-    <input type="text" class="form-control"  placeholder="The Evidence Addr Of The Token Addr!">
+    <span class="input-group-text" id="basic-addon1">Evidencer Addr</span>
+    <input name="evidence_addr" value="<%= @evidence_addr%>" type="text" class="form-control"  placeholder="The Addr of Evidencer">
 </div>
 
 <br>
-<h3><center>Token Viewer</center></h3>
-<div class="input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Token ID:</span>
-    <input type="text" class="form-control"  placeholder="The Tokens that u want to VIEW!">
-</div>
-
+<h3><b> Combiner Addr:</b><%=@combiner_addr %></h3>
 <br>
-<h3><center>Combiner</center></h3>
+<h3><b> U should sent Tokens to combiner Addr for Combination!<b></h3>
+<br>
+<h3><center>The Token List that u want to Combine!</center></h3>
 <div class="input-group mb-3">
     <span class="input-group-text" id="basic-addon1">Token List:</span>
-    <input type="text" class="form-control"  placeholder="The Tokens that U want to COMBINE!">
+    <input type="text" name="token_list" class="form-control"  placeholder="The Tokens that U want to COMBINE!">
+</div>
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Receiver Addr:</span>
+    <input type="text" name="receiver_addr" class="form-control"  placeholder="The Combine Token U want to give to!">
 </div>
 <br>
-<center><button type="button" style="width:50%" class="btn btn-warning btn-lg"><h3>COMBINE!</h3></button></center>
+<center><%= submit "View Tokens in Token List", name: "view", "phx-click": "view" %>
+<br><br>
+<%= submit "Combine Tokens", name: "combine", "phx-click": "combine" %></center>
 <br>
 <h3><center>OUTPUT:</center></h3>

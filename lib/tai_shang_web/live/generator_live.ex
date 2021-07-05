@@ -2,7 +2,7 @@ defmodule TaiShangWeb.GeneratorLive do
   use TaiShangWeb, :live_view
   alias TaiShang.{KeyGenerator, NFTPlusInteractor, NFTPlusFetcher}
   alias TaiShang.{Account, Chain}
-  alias TaiShang.Gene.Generator
+  alias TaiShang.Gene.{Generator, Rules}
   alias Utils.StructTranslator
   alias Utils.RandGen
 
@@ -108,7 +108,7 @@ defmodule TaiShangWeb.GeneratorLive do
     "evidencer" => evidence_addr
   }, %{assigns: %{chain: chain}} = socket) do
     {rules, limits} =
-      fetch_limits_and_rules(
+      Rules.fetch_limits_and_rules(
         chain,
         erc721_addr,
         evidence_addr)
@@ -165,7 +165,7 @@ defmodule TaiShangWeb.GeneratorLive do
       |> KeyGenerator.gen_key(:gene)
 
     result =
-      fetch_limits_and_rules(chain, erc721_addr, evidence_addr)
+      Rules.fetch_limits_and_rules(chain, erc721_addr, evidence_addr)
     case result do
       {:error, _msg} ->
         Process.send_after(self(), :add_extra_infos, 1000)
@@ -249,28 +249,5 @@ defmodule TaiShangWeb.GeneratorLive do
     {:noreply, socket}
   end
 
-  # +------------------+
-  # | specific things. |
-  # +------------------+
-
-  def fetch_limits_and_rules(%{config: config}, erc721_addr, evidence_addr) do
-    [limits_raw_list, rules_raw_list] =
-      NFTPlusFetcher.get_contract_info(
-        config["chain_id"],
-        erc721_addr,
-      evidence_addr)
-    if is_nil(limits_raw_list) or is_nil(rules_raw_list) do
-      {:error, "limit_or_rules_not_setting"}
-    else
-      limits =
-        limits_raw_list
-        |> :binary.list_to_bin()
-        |> Generator.decompse_limits()
-      rules =
-        Generator.decompose_rules(rules_raw_list)
-      {rules, limits}
-    end
-
-  end
 
 end

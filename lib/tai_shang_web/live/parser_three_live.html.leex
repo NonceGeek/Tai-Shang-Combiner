@@ -1,0 +1,23 @@
+<h3><center>Parse Gene to A Crypto Character！</center></h3>
+<h3><center>将基因渲染为虚拟角色！</center></h3>
+<%= for balance <- @balances do %>
+    <b>Unique Token Id:</b>
+    <br>
+    <%= "#{@chain.config["chain_id"]}:#{@erc721_addr}:#{balance.token_id}" %>
+    <br>
+    <% {spec_base2, spec_base10} = balance.gene_handled %>
+    <b>Raw Gene: </b>
+    <%= inspect balance.extra_info.gene%>
+    <br>
+    <b>Description: </b>
+    <%= Enum.reduce(spec_base2, "", fn ele, acc ->
+        acc<>ele
+    end) %>
+    <br>
+    <%= Enum.map(spec_base10, fn {key, value} -> %>
+        <b><%= key%>: </b>
+        <%= value %>
+        <br>
+    <% end) %>
+    <hr>
+<% end %>

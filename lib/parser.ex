@@ -8,6 +8,8 @@ defmodule TaiShang.Parser do
     field :description, :string
     field :type, :string
     field :url, :string
+    field :example_addr, :string
+    field :example_token_id, :integer
     belongs_to :chain, Chain
     timestamps()
   end
@@ -49,7 +51,7 @@ defmodule TaiShang.Parser do
   @doc false
   def changeset(%Ele{} = ele, attrs) do
     ele
-    |> cast(attrs, [:name, :description, :type, :url, :chain_id])
+    |> cast(attrs, [:name, :description, :type, :url, :chain_id, :example_addr, :example_token_id])
     |> unique_constraint(:name)
   end
 end
