@@ -6,6 +6,18 @@ defmodule TaiShang.NFTPlusFetcher do
   alias TaiShang.{KeyGenerator, NFTPlusInteractor}
   @contract_keys [:limits, :rules]
 
+  def fetch_tokens_info(chain_id, evi_contract_addr, erc721_contract_addr, token_id_list) do
+      Enum.map(token_id_list, fn token_id ->
+      owner = NFTPlusInteractor.owner_of(erc721_contract_addr, token_id)
+      extra_info =
+        get_extra_info(chain_id, evi_contract_addr, erc721_contract_addr, token_id)
+      %{
+        token_id: token_id,
+        owner: owner,
+        extra_info: extra_info
+      }
+    end)
+  end
   def fetch_best_nft(contract_addr, addr_str) do
     balance = NFTPlusInteractor.balance_of(contract_addr, addr_str)
     NFTPlusInteractor.token_of_owner_by_index(

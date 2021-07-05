@@ -12,6 +12,15 @@ defmodule TaiShang.Gene.Combiner do
   # +---------+
   # | Level 1 |
   # +---------+
+
+  def combine_genes(input_genes, rules_mixed, limits_mixed) do
+    %{rules_base2: rules_base2, rules_base10: rules_base10} =
+      rules_mixed
+    %{limits_base2: _limits_base2, limits_base10: limits_base10} =
+      limits_mixed
+
+    combine_genes(input_genes, rules_base2, rules_base10, limits_base10)
+  end
   def combine_genes(input_genes, rules_base2, rules_base10, limits) do
     len =
       input_genes

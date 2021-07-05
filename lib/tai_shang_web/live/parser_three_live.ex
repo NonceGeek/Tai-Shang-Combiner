@@ -32,15 +32,22 @@ defmodule TaiShangWeb.ParserThreeLive do
         evidence_addr,
         erc721_addr,
         addr)
-    {rules , _limits} = Rules.fetch_limits_and_rules(chain, erc721_addr, evidence_addr)
+    {rules , _limits} = Rules.fetch_rules_and_limits(chain, erc721_addr, evidence_addr)
     balances_handled =
-      Enum.map(balances, fn %{extra_info: %{gene: gene}} = balance ->
+      Enum.map(balances, fn %{
+        extra_info: %{gene: gene,
+          basic_info: %{
+         "expiration_date" => expir_timestamp,
+         "effective_date" => effective_timestamp}
+        }} = balance ->
+        life = cal_life(expir_timestamp, effective_timestamp)
         gene_handled =
           gene
           |> Gene.parse(rules)
           |> to_spec()
         balance
         |> Map.put(:gene_handled, gene_handled)
+        |> Map.put(:life, life)
 
       end)
 
@@ -50,6 +57,11 @@ defmodule TaiShangWeb.ParserThreeLive do
       |> assign(chain: chain)
       |> assign(erc721_addr: erc721_addr)
     }
+  end
+
+  def cal_life("forever", _), do: "无限"
+  def cal_life(expir_timestamp, effective_timestamp) do
+    div((expir_timestamp - effective_timestamp), 3600*24)
   end
 
   def to_spec({base2_gene, base10_gene}) do

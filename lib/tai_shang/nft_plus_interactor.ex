@@ -16,7 +16,8 @@ defmodule TaiShang.NFTPlusInteractor do
     token_uri: "tokenURI(uint256)",
     get_evidence_by_key: "getEvidenceByKey(string)",
     new_evidence_by_key: "newEvidenceByKey(string, string)",
-    mint_nft: "mintNft(address, string)"
+    mint_nft: "mintNft(address, string)",
+    owner_of: "ownerOf(uint256)"
   }
 
   # +----------------------+
@@ -128,6 +129,19 @@ defmodule TaiShang.NFTPlusInteractor do
     TypeTranslator.hex_to_int(token_id)
   end
 
+  def owner_of(contract_addr, token_id) do
+    data =
+      get_data(
+        @func.owner_of,
+        [token_id])
+    {:ok, addr_raw} =
+      Ethereumex.HttpClient.eth_call(%{
+        data: data,
+        to: contract_addr})
+
+    TypeTranslator.get_addr(addr_raw)
+  end
+
   @spec balance_of(String.t(), String.t()) :: Integer.t()
   def balance_of(contract_addr, addr_str) do
     {:ok, addr_bytes} = TypeTranslator.hex_to_bytes(addr_str)
@@ -139,7 +153,7 @@ defmodule TaiShang.NFTPlusInteractor do
     TypeTranslator.hex_to_int(balance_hex)
   end
 
-    # +-------------+
+  # +-------------+
   # | Basic Funcs |
   # +-------------+
   @spec get_data(String.t(), List.t()) :: String.t()

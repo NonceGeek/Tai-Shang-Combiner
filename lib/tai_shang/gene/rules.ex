@@ -8,7 +8,7 @@ defmodule TaiShang.Gene.Rules do
   # +---------------+
   # | rules fetcher |
   # +---------------+
-  def fetch_limits_and_rules(%{config: config}, erc721_addr, evidence_addr) do
+  def fetch_rules_and_limits(%{config: config}, erc721_addr, evidence_addr) do
     [limits_raw_list, rules_raw_list] =
       NFTPlusFetcher.get_contract_info(
         config["chain_id"],
@@ -20,7 +20,7 @@ defmodule TaiShang.Gene.Rules do
       limits =
         limits_raw_list
         |> :binary.list_to_bin()
-        |> decompse_limits()
+        |> decompose_limits()
       rules =
         decompose_rules(rules_raw_list)
       {rules, limits}
@@ -164,7 +164,7 @@ defmodule TaiShang.Gene.Rules do
     |> Kernel.<>(:binary.list_to_bin(limits_base10))
   end
 
-  def decompse_limits(limits_raw) do
+  def decompose_limits(limits_raw) do
     len = byte_size(limits_raw)
     size_base2 = div(len, 4)
     {limits_base2_raw, limits_base10_raw}

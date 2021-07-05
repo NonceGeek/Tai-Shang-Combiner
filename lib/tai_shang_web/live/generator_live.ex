@@ -6,6 +6,10 @@ defmodule TaiShangWeb.GeneratorLive do
   alias Utils.StructTranslator
   alias Utils.RandGen
 
+  @doc """
+
+  """
+
   @impl true
   def mount(_params, _session, socket) do
     {
@@ -102,13 +106,13 @@ defmodule TaiShangWeb.GeneratorLive do
     }
   end
 
-  def handle_event("fetch_limits_and_rules",
+  def handle_event("fetch_rules_and_limits",
   %{
     "erc721" => erc721_addr,
     "evidencer" => evidence_addr
   }, %{assigns: %{chain: chain}} = socket) do
     {rules, limits} =
-      Rules.fetch_limits_and_rules(
+      Rules.fetch_rules_and_limits(
         chain,
         erc721_addr,
         evidence_addr)
@@ -165,7 +169,7 @@ defmodule TaiShangWeb.GeneratorLive do
       |> KeyGenerator.gen_key(:gene)
 
     result =
-      Rules.fetch_limits_and_rules(chain, erc721_addr, evidence_addr)
+      Rules.fetch_rules_and_limits(chain, erc721_addr, evidence_addr)
     case result do
       {:error, _msg} ->
         Process.send_after(self(), :add_extra_infos, 1000)

@@ -39,6 +39,14 @@ defmodule Utils.TypeTranslator do
     |> List.first()
   end
 
+  def get_addr(raw) do
+    addr_bin =
+      raw
+      |> hex_to_bin()
+      |> ABI.TypeDecoder.decode_raw([:address])
+      |> List.first()
+    "0x" <> Base.encode16(addr_bin, case: :lower)
+  end
   def hex_to_bin(hex) do
     hex
     |> String.slice(2..-1)

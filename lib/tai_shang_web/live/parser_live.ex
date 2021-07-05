@@ -51,8 +51,6 @@ defmodule TaiShangWeb.ParserLive do
     }
   end
 
-
-
   def key_raw_to_key_formatted(key_raw) do
     [key, id] = String.split(key_raw, "#")
     [key, String.to_integer(id)]
