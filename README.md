@@ -14,6 +14,12 @@
   
   **仓库地址：** https://github.com/WeLightProject/NFT-Parser-0x01
 
+- **NFT-Parser-0x02**
+
+  **描述：** 体现NFT之间的关系（可用于艺术作品的二次创作）。
+  
+  **仓库地址：** https://github.com/WeLightProject/NFT-Parser-0x02
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
@@ -135,9 +141,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 - [x] `Parser`
 
-  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01
-  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x02
-  - NFT Parser 0x03: In TaiShang.
+  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x01 => 朴素滴展现 NFT-Plus 的信息
+  - NFT Parser 0x01: https://github.com/WeLightProject/NFT-Parser-0x02 => 体现如何使用 NFT-Plus 进行二次创作
+  - NFT Parser 0x03: In TaiShang => 体现如何通过基因渲染出虚拟角色（CryptoCharacter）
 
   NFT+ 解析器，解析内容包括原生 URI 与 Gene。
 
